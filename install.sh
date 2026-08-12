@@ -34,21 +34,26 @@ else
     echo "         >>> Edit it and set TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID"
 fi
 
-# --- 2. .bashrc -----------------------------------------------------------
+# --- 2. shell rc files -----------------------------------------------------
+# Configure both ~/.bashrc (bash) and ~/.zshrc (zsh, if present).
 BASHRC="$HOME/.bashrc"
+ZSHRC="$HOME/.zshrc"
 SOURCE_LINE="source $REPO_DIR/telegram-notify.sh"
 
-if grep -qF "telegram-build-notifier" "$BASHRC" 2>/dev/null; then
-    echo "  [skip] .bashrc already configured"
-else
-    cat >> "$BASHRC" <<EOF
+for RC in "$BASHRC" "$ZSHRC"; do
+    [ -f "$RC" ] || continue
+    if grep -qF "telegram-build-notifier" "$RC" 2>/dev/null; then
+        echo "  [skip] $RC already configured"
+    else
+        cat >> "$RC" <<EOF
 
 # Telegram Build Notifier
 $SOURCE_LINE
 EOF
-    echo "  [ok]   added source line to $BASHRC"
-    echo "         >>> Run: source $BASHRC  (or open a new terminal)"
-fi
+        echo "  [ok]   added source line to $RC"
+    fi
+done
+echo "         >>> Run: source $BASHRC (or source $ZSHRC), or open a new terminal"
 
 # --- 3. Auto-hook in build/make/envsetup.sh --------------------------------
 if [ ! -f "$ENVSETUP" ]; then
@@ -94,5 +99,5 @@ fi
 echo "== done =="
 echo "Next steps:"
 echo "  1. Edit $CONFIG_FILE (bot token + chat ID)"
-echo "  2. source $BASHRC"
+echo "  2. source $BASHRC (bash) or source $ZSHRC (zsh)"
 echo "  3. Build as usual: source build/envsetup.sh && lunch <device>-<variant> && mka bacon"

@@ -88,9 +88,9 @@ function send_build_notification() {
     if [ $ret -eq 0 ]; then
         local zipfile=""
         if [ -n "$OUT" ]; then
-            zipfile=$(ls -t "$OUT"/$zip_pattern 2>/dev/null | head -1)
+            zipfile=$(find "$OUT" -maxdepth 1 -type f -name "$zip_pattern" -printf '%T@ %p\n' 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)
         fi
-        [ -z "$zipfile" ] && [ -d "$out_dir/target" ] && zipfile=$(ls -t "$out_dir"/target/product/*/$zip_pattern 2>/dev/null | head -1)
+        [ -z "$zipfile" ] && [ -d "$out_dir/target" ] && zipfile=$(find "$out_dir"/target/product -maxdepth 2 -type f -name "$zip_pattern" -printf '%T@ %p\n' 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)
 
         if [ -n "$zipfile" ]; then
             local zipname=$(basename "$zipfile")

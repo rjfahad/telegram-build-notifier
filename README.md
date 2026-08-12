@@ -48,8 +48,12 @@ export BANNER_IMAGE="image.png"     # banner placed in the ROM root
 Finally load it:
 
 ```bash
-source ~/.bashrc
+source ~/.bashrc      # bash
+source ~/.zshrc       # zsh
 ```
+
+> install.sh configures **both** `~/.bashrc` and `~/.zshrc` (whichever exists),
+> so the notifier works no matter which shell you use.
 
 ## Usage
 
@@ -108,7 +112,7 @@ Non-LineageOS ROMs: set `PRODUCT_PREFIX` and `ZIP_PATTERN` to match, e.g. for Ar
 ./uninstall.sh /path/to/your/rom/tree
 ```
 
-Restores `build/make/envsetup.sh` (from a backup) and removes the `.bashrc` entry.
+Restores `build/make/envsetup.sh` (from a backup) and removes the shell rc entry.
 The config file and repo folder are kept.
 
 ## License
