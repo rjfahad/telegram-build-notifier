@@ -1,0 +1,29 @@
+# Telegram Build Notifier configuration
+#
+# Copy this file to ~/.config/telegram-build-notifier.env and fill in your values.
+# The same values can also be exported as environment variables directly
+# (environment variables take priority over this file).
+
+# --- Required ---
+# Your Telegram bot token (from @BotFather)
+export TELEGRAM_BOT_TOKEN=""
+
+# Your Telegram chat ID (the bot's owner / group where notifications go)
+export TELEGRAM_CHAT_ID=""
+
+# --- Optional, but recommended ---
+
+# Your build server's public IP / hostname. Enables the SCP download command on success.
+export SERVER_IP=""
+
+# SSH user used to download the ROM on your local PC.
+export SSH_USER=""
+
+# Banner image to send alongside success notifications.
+#   * Absolute path, OR
+#   * Filename relative to the ROM root (defaults to `<ROM root>/image.png`)
+export BANNER_IMAGE=""
+
+# Adjust these only if you build a non-LineageOS ROM
+# export PRODUCT_PREFIX="lineage_"      # prefix stripped from TARGET_PRODUCT for the device name
+# export ZIP_PATTERN="lineage-*.zip"     # glob for the flashable zip inside $OUT
