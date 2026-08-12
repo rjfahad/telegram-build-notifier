@@ -25,11 +25,14 @@ _tg_load_config() {
     while IFS= read -r line; do
         case "$line" in
             \#*|"") continue ;;
-            *=*)
+            *"="*)
                 key="${line%%=*}"
+                key="${key#export }"          # tolerate a leading `export`
+                key="${key#"export"}"         # tolerate `export` without space
+                key="${key// /}"
                 val="${line#*=}"
                 val="${val#\"}"; val="${val%\"}"
-                [ -n "$val" ] && export "$key=$val"
+                [ -n "$key" ] && [ -n "$val" ] && export "$key=$val"
                 ;;
         esac
     done < "$_DEFAULT_TG_CONFIG"
